@@ -1,0 +1,40 @@
+Crée un dockerfile et mettre ce code dedans : 
+# Utiliser une image Node.js officielle en tant qu'image de base
+FROM node:14
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers package.json et package-lock.json
+COPY package*.json ./
+
+# Installer les dépendances de l'application
+RUN npm install
+
+# Copier le reste du code source de l'application
+COPY . .
+
+# Spécifier la commande à exécuter lorsque le conteneur démarre
+CMD [ "npm", "start" ]
+
+# Exposer le port de l'application
+EXPOSE 3000
+
+en suite crée l'image : 
+docker build -t [image-name] .
+
+Puis run avec l'image qui viens d'étre crée :
+
+docker run -p 3000:3000 [image-name]
+
+
+Crée un docker-compose.yml et mettre ce code dedans : 
+version: '3'
+services:
+  app:
+    image: [image-name]
+    ports:
+      - "3000:3000"
+
+puis exécuter la commande suivante : 
+docker-compose up
